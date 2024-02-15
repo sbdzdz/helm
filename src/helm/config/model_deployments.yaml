@@ -349,11 +349,22 @@ model_deployments:
       class_name: "helm.proxy.clients.goose_ai_client.GooseAIClient"
 
   # Google
+  # See: https://cloud.google.com/vertex-ai/docs/generative-ai/learn/model-versioning
 
   ## Gemini
   # See: https://ai.google.dev/models/gemini#model_variations
   - name: google/gemini-pro
     model_name: google/gemini-pro
+    tokenizer_name: hf-internal-testing/llama-tokenizer
+    max_sequence_length: 30720 # Officially 30720
+    max_sequence_and_generated_tokens_length: 32768 # Officially max_sequence_length + 2048
+    client_spec:
+      class_name: "helm.proxy.clients.vertexai_client.VertexAIChatClient"
+    window_service_spec:
+      class_name: "helm.benchmark.window_services.no_decoding_window_service.NoDecodingWindowService"
+
+  - name: google/gemini-1.0-pro
+    model_name: google/gemini-1.0-pro
     tokenizer_name: hf-internal-testing/llama-tokenizer
     max_sequence_length: 30720 # Officially 30720
     max_sequence_and_generated_tokens_length: 32768 # Officially max_sequence_length + 2048
@@ -372,10 +383,30 @@ model_deployments:
     window_service_spec:
       class_name: "helm.benchmark.window_services.no_decoding_window_service.NoDecodingWindowService"
 
+  - name: google/gemini-1.0-pro-vision
+    model_name: google/gemini-1.0-pro-vision
+    tokenizer_name: hf-internal-testing/llama-tokenizer
+    max_sequence_length: 12288
+    max_sequence_and_generated_tokens_length: 16384
+    client_spec:
+      class_name: "helm.proxy.clients.vertexai_client.VertexAIChatClient"
+    window_service_spec:
+      class_name: "helm.benchmark.window_services.no_decoding_window_service.NoDecodingWindowService"
+
   ## PaLM 2
   - name: google/text-bison@001
     model_name: google/text-bison@001
     tokenizer_name: google/text-bison@001
+    max_sequence_length: 6000 # Officially 8192
+    max_sequence_and_generated_tokens_length: 7000 # Officially 9216
+    client_spec:
+      class_name: "helm.proxy.clients.vertexai_client.VertexAITextClient"
+    window_service_spec:
+      class_name: "helm.benchmark.window_services.no_decoding_window_service.NoDecodingWindowService"
+
+  - name: google/text-bison@002
+    model_name: google/text-bison@002
+    tokenizer_name: google/text-bison@002
     max_sequence_length: 6000 # Officially 8192
     max_sequence_and_generated_tokens_length: 7000 # Officially 9216
     client_spec:
@@ -406,6 +437,16 @@ model_deployments:
 
   - name: google/code-bison@001
     model_name: google/code-bison@001
+    tokenizer_name: google/mt5-base # TODO #2188: change to actual tokenizer
+    max_sequence_length: 6000 # Officially 6144
+    max_sequence_and_generated_tokens_length: 7000 # Officially 7168
+    client_spec:
+      class_name: "helm.proxy.clients.vertexai_client.VertexAITextClient"
+    window_service_spec:
+      class_name: "helm.benchmark.window_services.no_decoding_window_service.NoDecodingWindowService"
+
+  - name: google/code-bison@002
+    model_name: google/code-bison@002
     tokenizer_name: google/mt5-base # TODO #2188: change to actual tokenizer
     max_sequence_length: 6000 # Officially 6144
     max_sequence_and_generated_tokens_length: 7000 # Officially 7168
