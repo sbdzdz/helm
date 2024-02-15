@@ -610,7 +610,7 @@ models:
 
   - name: google/gemini-pro-vision
     display_name: Gemini Pro Vision
-    description: Gemini Pro Visionis a multimodal model able to reason across text, images, video, audio and code. ([paper](https://arxiv.org/abs/2312.11805))
+    description: Gemini Pro Vision is a multimodal model able to reason across text, images, video, audio and code. ([paper](https://arxiv.org/abs/2312.11805))
     creator_organization_name: Google
     access: limited
     release_date: 2023-12-13
