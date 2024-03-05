@@ -132,22 +132,6 @@ def construct_run_specs(spec: ObjectSpec) -> List[RunSpec]:
         if ANTHROPIC_CLAUDE_1_MODEL_TAG in model.tags or ANTHROPIC_CLAUDE_2_MODEL_TAG in model.tags:
             run_spec = singleton(AnthropicRunExpander().expand(run_spec))
 
-        # OpenAI prompts
-        if OPENAI_CHATGPT_MODEL_TAG in model.tags:
-            run_spec = singleton(OpenAIRunExpander().expand(run_spec))
-
-        # Google prompts
-        if (
-            GOOGLE_PALM_2_MODEL_TAG in model.tags
-            or GOOGLE_GEMINI_MODEL_TAG
-            or GOOGLE_GEMMA_INSTRUCT_MODEL_TAG in model.tags
-        ):
-            run_spec = singleton(GoogleRunExpander().expand(run_spec))
-
-        # Mistral prompts
-        if MISTRAL_MODEL_TAG in model.tags:
-            run_spec = singleton(MistralRunExpander().expand(run_spec))
-
         # Google Gemini Vision returns an empty completion or throws an error if max_tokens is 1
         if (
             VISION_LANGUAGE_MODEL_TAG in model.tags
@@ -164,6 +148,9 @@ def construct_run_specs(spec: ObjectSpec) -> List[RunSpec]:
 
             if IDEFICS_INSTRUCT_MODEL_TAG in model.tags:
                 run_spec = singleton(IDEFICSInstructRunExpander().expand(run_spec))
+        # IDEFICS instruct
+        if IDEFICS_INSTRUCT_MODEL_TAG in model.tags:
+            run_spec = singleton(IDEFICSInstructRunExpander().expand(run_spec))
 
         # Llava
         if LLAVA_MODEL_TAG in model.tags:
