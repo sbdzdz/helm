@@ -1,5 +1,4 @@
-import re
-from typing import List, Any, Dict
+from typing import List
 from datasets import load_dataset
 
 from helm.benchmark.scenarios.scenario import (
@@ -39,7 +38,7 @@ class UnitxtScenario(Scenario):
         instances: List[Instance] = []
 
         for unitxt_split_name, helm_split_name in UnitxtScenario.UNITXT_SPLIT_NAME_TO_HELM_SPLIT_NAME.items():
-            for row in dataset[unitxt_split_name]:
+            for index, row in enumerate(dataset[unitxt_split_name]):
                 correct_reference = row["target"]
                 references = [
                     Reference(
@@ -49,6 +48,7 @@ class UnitxtScenario(Scenario):
                     for reference_text in row["references"]
                 ]
                 instance = Instance(
+                    id=f"{unitxt_split_name}{index}",
                     input=Input(text=row["source"]),
                     references=references,
                     split=helm_split_name,
